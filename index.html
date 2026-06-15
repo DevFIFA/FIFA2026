@@ -1,69 +1,71 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FIFA World Cup 2026 Tracker</title>
+<title>FIFA 2026 Tracker</title>
+
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
 </head>
+
 <body>
 
 <header class="hero">
   <div class="overlay">
     <h1>FIFA WORLD CUP 2026</h1>
-    <p>104 Matches • 16 Cities • 3 Countries</p>
+    <p>Interactive Live Schedule Tracker</p>
 
-    <div id="countdown"></div>
+    <div id="globalCountdown"></div>
 
-    <input
-      id="search"
-      placeholder="Search team, city, venue..."
-    >
+    <button id="themeToggle">🌙 Theme</button>
+
+    <div class="filters">
+      <select id="stageFilter">
+        <option value="">All Stages</option>
+        <option>Group</option>
+        <option>Round</option>
+        <option>Quarter</option>
+        <option>Semi</option>
+        <option>Final</option>
+      </select>
+
+      <input id="teamFilter" placeholder="Search team..." />
+    </div>
   </div>
 </header>
 
 <section class="stats">
-  <div class="card">
-    <h2 id="matchCount">104</h2>
-    <span>Matches</span>
-  </div>
-
-  <div class="card">
-    <h2>16</h2>
-    <span>Host Cities</span>
-  </div>
-
-  <div class="card">
-    <h2>48</h2>
-    <span>Teams</span>
-  </div>
+  <div class="card"><h2 id="matchCount">0</h2><span>Matches</span></div>
+  <div class="card"><h2>16</h2><span>Cities</span></div>
+  <div class="card"><h2>48</h2><span>Teams</span></div>
 </section>
 
-<section>
-  <h2>Schedule</h2>
+<section class="container">
+  <h2>Match Schedule</h2>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Stage</th>
-          <th>Home</th>
-          <th>Away</th>
-          <th>Venue</th>
-        </tr>
-      </thead>
-      <tbody id="scheduleBody"></tbody>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Match</th>
+        <th>Venue</th>
+        <th>Countdown</th>
+      </tr>
+    </thead>
+    <tbody id="scheduleBody"></tbody>
+  </table>
+</section>
+
+<section class="container">
+  <h2>Group Standings</h2>
+  <div id="standings"></div>
 </section>
 
 <footer>
-  Updated automatically every 6 hours
+  FIFA 2026 Tracker • Auto-updates every hours
 </footer>
 
 <script src="script.js"></script>
-
 </body>
-</html>
 </html>
