@@ -6,61 +6,38 @@ color:white;
 }
 
 .hero{
-padding:80px 20px;
 text-align:center;
-background:linear-gradient(135deg,#001f3f,#0074D9);
+padding:70px 20px;
+background:linear-gradient(135deg,#003b73,#00a6ff);
 }
 
-.overlay h1{
-font-size:3rem;
-}
-
-button{
-padding:10px 15px;
-margin-top:10px;
+input,select{
+padding:10px;
+margin:5px;
+border-radius:8px;
 border:none;
-border-radius:10px;
-cursor:pointer;
-}
-
-.filters{
-margin-top:15px;
-display:flex;
-gap:10px;
-justify-content:center;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-th,td{
-padding:12px;
-border-bottom:1px solid #1f2a44;
-text-align:left;
-}
-
-.card{
-background:#0d1b2a;
-padding:20px;
-border-radius:12px;
-text-align:center;
 }
 
 .stats{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:10px;
 padding:20px;
+gap:10px;
 }
 
-.container{
-padding:30px;
+.card{
+background:#0f1c2e;
+padding:20px;
+border-radius:12px;
+text-align:center;
 }
 
-.light{
-background:#f5f7fb;
-color:#111;
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #1d2a3a;
 }
