@@ -1,0 +1,9 @@
+{
+  "name": "FIFA 2026 Tracker",
+  "short_name": "FIFA2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050b1a",
+  "theme_color": "#0074D9",
+  "icons": []
+}
