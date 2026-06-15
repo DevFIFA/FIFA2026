@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FIFA 2026 Tracker</title>
+<title>FIFA 2026 Live Tracker</title>
 
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
@@ -12,26 +12,26 @@
 <body>
 
 <header class="hero">
-  <div class="overlay">
-    <h1>FIFA WORLD CUP 2026</h1>
-    <p>Interactive Live Schedule Tracker</p>
+  <h1>FIFA WORLD CUP 2026</h1>
+  <p>Live Schedule • Auto Updated Every 6 Hours</p>
 
-    <div id="globalCountdown"></div>
+  <div id="globalCountdown"></div>
 
-    <button id="themeToggle">🌙 Theme</button>
+  <input id="search" placeholder="Search team, city, stadium...">
+  
+  <div class="filters">
+    <select id="stageFilter">
+      <option value="">All Stages</option>
+      <option>Group</option>
+      <option>Round</option>
+      <option>Quarter</option>
+      <option>Semi</option>
+      <option>Final</option>
+    </select>
 
-    <div class="filters">
-      <select id="stageFilter">
-        <option value="">All Stages</option>
-        <option>Group</option>
-        <option>Round</option>
-        <option>Quarter</option>
-        <option>Semi</option>
-        <option>Final</option>
-      </select>
-
-      <input id="teamFilter" placeholder="Search team..." />
-    </div>
+    <select id="cityFilter">
+      <option value="">All Cities</option>
+    </select>
   </div>
 </header>
 
@@ -42,30 +42,25 @@
 </section>
 
 <section class="container">
-  <h2>Match Schedule</h2>
-
   <table>
     <thead>
       <tr>
         <th>Date</th>
         <th>Match</th>
         <th>Venue</th>
-        <th>Countdown</th>
+        <th>Time Left</th>
       </tr>
     </thead>
     <tbody id="scheduleBody"></tbody>
   </table>
 </section>
 
-<section class="container">
-  <h2>Group Standings</h2>
-  <div id="standings"></div>
-</section>
-
 <footer>
-  FIFA 2026 Tracker • Auto-updates every hours
+  Live FIFA Tracker • Powered by GitHub Pages + Actions
 </footer>
 
-<script src="script.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
