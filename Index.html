@@ -1,95 +1,69 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FIFA World Cup 2026 Schedule</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    margin: 0;
-    padding: 20px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-h1 {
-    color: #0d47a1;
-}
-
-.updated {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.schedule {
-    max-width: 1000px;
-    margin: auto;
-}
-
-.match {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.1);
-}
-
-.match h3 {
-    margin: 0 0 10px;
-}
-
-.match-details {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FIFA World Cup 2026 Tracker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-    <h1>FIFA World Cup 2026 Schedule</h1>
-    <p class="updated" id="updated"></p>
+<header class="hero">
+  <div class="overlay">
+    <h1>FIFA WORLD CUP 2026</h1>
+    <p>104 Matches • 16 Cities • 3 Countries</p>
+
+    <div id="countdown"></div>
+
+    <input
+      id="search"
+      placeholder="Search team, city, venue..."
+    >
+  </div>
 </header>
 
-<div class="schedule" id="schedule"></div>
+<section class="stats">
+  <div class="card">
+    <h2 id="matchCount">104</h2>
+    <span>Matches</span>
+  </div>
 
-<script>
-async function loadSchedule() {
-    const response = await fetch('data/schedule.json');
-    const data = await response.json();
+  <div class="card">
+    <h2>16</h2>
+    <span>Host Cities</span>
+  </div>
 
-    document.getElementById('updated').textContent =
-        `Last Updated: ${data.lastUpdated}`;
+  <div class="card">
+    <h2>48</h2>
+    <span>Teams</span>
+  </div>
+</section>
 
-    const container = document.getElementById('schedule');
-    container.innerHTML = '';
+<section>
+  <h2>Schedule</h2>
 
-    data.matches.forEach(match => {
-        const card = document.createElement('div');
-        card.className = 'match';
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Stage</th>
+          <th>Home</th>
+          <th>Away</th>
+          <th>Venue</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+  </div>
+</section>
 
-        card.innerHTML = `
-            <h3>${match.homeTeam} vs ${match.awayTeam}</h3>
-            <div class="match-details">
-                <span>${match.date}</span>
-                <span>${match.time}</span>
-                <span>${match.venue}</span>
-            </div>
-        `;
+<footer>
+  Updated automatically every 6 hours
+</footer>
 
-        container.appendChild(card);
-    });
-}
-
-loadSchedule();
-</script>
+<script src="script.js"></script>
 
 </body>
+</html>
 </html>
