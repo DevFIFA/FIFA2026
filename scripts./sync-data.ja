@@ -1,0 +1,33 @@
+import fs from "fs";
+import { getMatches } from "../services/apiClient.js";
+
+async function run() {
+  try {
+    const matches = await getMatches();
+
+    const output = {
+      updated: new Date().toISOString(),
+      total: matches.length,
+      matches
+    };
+
+    fs.writeFileSync(
+      "data/matches.json",
+      JSON.stringify(output, null, 2)
+    );
+
+    console.log(`Synced ${matches.length} matches`);
+  } catch (err) {
+    console.error("Sync failed:", err);
+
+    fs.writeFileSync(
+      "data/matches.json",
+      JSON.stringify({
+        updated: new Date().toISOString(),
+        matches: []
+      })
+    );
+  }
+}
+
+run();
