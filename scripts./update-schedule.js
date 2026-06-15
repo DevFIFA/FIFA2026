@@ -1,74 +1,66 @@
 import fs from "fs";
+import { chromium } from "playwright";
 
-const SOURCE_URL =
+const URL =
   "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/match-schedule";
 
-async function fetchHTML(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Failed to fetch FIFA page");
-  return await res.text();
-}
+async function scrape() {
+  const browser = await chromium.launch({
+    headless: true
+  });
 
-/**
- * NOTE:
- * FIFA pages are heavily dynamic.
- * This parser is a SAFE fallback that extracts
- * structured text patterns when available.
- */
-function parseMatches(html) {
-  const matches = [];
+  const page = await browser.newPage();
 
-  // Very lightweight heuristic parsing (safe in CI)
-  const dateRegex = /(\d{1,2}\s\w+\s2026)/g;
-  const teamRegex = /([A-Z][a-zA-Z\s]+)\s-\s([A-Z][a-zA-Z\s]+)/g;
-  const venueRegex = /(Mexico City|New York|Los Angeles|Toronto|Vancouver|Guadalajara|Monterrey)/g;
+  await page.goto(URL, {
+    waitUntil: "networkidle"
+  });
 
-  let dates = [...html.matchAll(dateRegex)].map(m => m[0]);
-  let teams = [...html.matchAll(teamRegex)].map(m => m);
-  let venues = [...html.matchAll(venueRegex)].map(m => m[0]);
+  // Wait for content to load (important for JS-heavy sites)
+  await page.waitForTimeout(5000);
 
-  for (let i = 0; i < Math.min(teams.length, 50); i++) {
-    matches.push({
-      date: dates[i] || "2026-06-11",
-      stage: "Group",
-      home: teams[i][1].trim(),
-      away: teams[i][2].trim(),
-      venue: venues[i % venues.length] || "TBD"
+  const matches = await page.evaluate(() => {
+    const rows = [];
+
+    // Try to locate match cards/tables dynamically
+    const elements = document.querySelectorAll("tr, .match, .fixture, article");
+
+    elements.forEach(el => {
+      const text = el.innerText;
+
+      if (!text || text.length < 10) return;
+
+      // very flexible extraction
+      const parts = text.split("\n").map(t => t.trim());
+
+      if (parts.length >= 3) {
+        rows.push({
+          raw: text,
+          date: parts[0] || "TBD",
+          stage: "Group",
+          home: parts[1] || "TBD",
+          away: parts[2] || "TBD",
+          venue: parts[3] || "TBD"
+        });
+      }
     });
-  }
 
-  return matches;
+    return rows.slice(0, 120); // FIFA WC max ~104 matches
+  });
+
+  await browser.close();
+
+  const output = {
+    updated: new Date().toISOString(),
+    source: URL,
+    matches
+  };
+
+  fs.writeFileSync(
+    "data/schedule.json",
+    JSON.stringify(output, null, 2)
+  );
+
+  console.log(`Scraped ${matches.length} matches`);
 }
 
-async function update() {
-  try {
-    const html = await fetchHTML(SOURCE_URL);
-    const matches = parseMatches(html);
-
-    const output = {
-      updated: new Date().toISOString(),
-      source: SOURCE_URL,
-      matches
-    };
-
-    fs.writeFileSync(
-      "data/schedule.json",
-      JSON.stringify(output, null, 2)
-    );
-
-    console.log(`Updated ${matches.length} matches`);
-  } catch (err) {
-    console.error("Update failed:", err);
-
-    // Safe fallback so site never breaks
-    fs.writeFileSync(
-      "data/schedule.json",
-      JSON.stringify({
-        updated: new Date().toISOString(),
-        matches: []
-      }, null, 2)
-    );
-  }
-}
-
-update();
+scrape();
